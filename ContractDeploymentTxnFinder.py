@@ -11,8 +11,8 @@ w3 = Web3(Web3.HTTPProvider(args.host))
 contract_address     = w3.toChecksumAddress(args.address)
 
 def handle_event(event):
-    #pprint.pprint(event)
     eventdict = dict(event[0])
+    pprint.pprint(eventdict)
     if 'blockHash' in eventdict:
         print("BlockHash : {}".format(eventdict['blockHash'].hex()))
     if 'transactionHash' in eventdict:
@@ -28,7 +28,7 @@ if __name__ == "__main__":
     event_signature_hash = w3.sha3(text="ContractDeployed(string)").hex()
     contract_deployed_event_filter = w3.eth.getLogs({
         "fromBlock": 0,
-        "from": contract_address,
+        "address": contract_address,
         "topics": [event_signature_hash],
         })
     log(contract_deployed_event_filter)
